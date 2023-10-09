@@ -1,0 +1,16 @@
+.encounterForm-container {
+    max-width: 37.5rem;
+    margin: 0 auto
+}
+
+.datepicker {
+    width: 10rem;
+}
+
+input#date {
+    border-right: 0px!important;
+
+    & + button {
+        border-left: 0px!important;
+    }
+}

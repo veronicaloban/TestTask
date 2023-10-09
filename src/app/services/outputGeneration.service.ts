@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+
 import { BehaviorSubject } from "rxjs";
+
+import { ICondition } from "../interfaces/interfaces";
+import { formatDate } from "../utils/functions.utils";
 
 @Injectable({
     providedIn: 'root'
@@ -9,30 +14,27 @@ export class OutputGenerationService {
     private _outputObject$ = new BehaviorSubject({});
     public outputObject$ = this._outputObject$.asObservable();
     
-    public formOutputObject(date: {day: number, month: number, year: number}, conditions: Partial<{ condition: string, notes: string }>[]) {
-      const formattedDate = this.formatDate(date);
-      const obj: { encounter: object, conditions?: object} =  {
+    public formOutputObject(date?: NgbDateStruct | null, conditions?: Partial<{ condition: ICondition | null, notes: string | null }>[]) {
+      const formattedDate = date ? formatDate(date) : null;
+      const resultObj: { encounter: object, conditions?: object} =  {
           encounter: {
             date: formattedDate
           },
         };
-      const conditionsArray = conditions.filter(condition => condition.condition).map( condition => this.formConditionObject(condition));
+      const conditionsArray = conditions?.filter(condition => condition.condition).map( condition => this.formConditionObject(condition, formattedDate));
 
-      if (conditionsArray.length > 0) {
-        obj.conditions = conditionsArray;
+      if (!!conditionsArray?.length) {
+        resultObj.conditions = conditionsArray;
       }
       
-      this._outputObject$.next(obj);
+      this._outputObject$.next(resultObj);
       }
 
-      private formConditionObject(condition: Partial<{ condition: string, notes: string }>) {
-        console.log(condition)
-        const value = condition.condition?.split(' ')[1];
-        const code = condition.condition?.split(' ')[0];
+      private formConditionObject(condition: Partial<{ condition: ICondition | null, notes: string | null }>, onsetDate: string | null) {
         const { notes } = condition;
       
         return {
-          id: 'id',
+          id: crypto.randomUUID(),
           context: {
             identifier: {
               type: {
@@ -43,27 +45,19 @@ export class OutputGenerationService {
                   }
                 ]
               },
-              value
+              value: condition.condition?.id
             }
           },
           code: {
             coding: [
               {
                 system: "eHealth/ICPC2/condition_codes",
-                code
+                code: condition.condition?.code
               }
             ],
           },
           notes,
-          onset_date: ``    
+          onset_date: onsetDate   
         };
-      }
-
-      private formatDate(dateToFormat: {day: number, month: number, year: number}) {
-        const { year, month, day } = dateToFormat;
-
-        const date = new Date(year, month - 1, day);
-
-        return date.toISOString();
       }
 }

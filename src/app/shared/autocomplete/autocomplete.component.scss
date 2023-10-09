@@ -1,0 +1,14 @@
+.options {
+    z-index: 1;
+    height: 200px;
+    overflow: scroll;
+
+    li {
+        list-style-type: none;
+        cursor: pointer;
+    }
+}
+
+.hideOptions {
+    display: none;
+}

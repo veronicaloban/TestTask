@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { Observable } from 'rxjs';
 
-import { ICondition } from '../interfces/condition.interface';
+import { ICondition } from '../interfaces/interfaces';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ import { ICondition } from '../interfces/condition.interface';
 export class ConditionsService {
     constructor(private http: HttpClient) {}
 
-    getAllConditions(): Observable<ICondition[]> {
-        return this.http.get<ICondition[]>('/Dictionaries/icpc2?IsPublic=true');
+    getConditions(searchSrting: string = ''): Observable<ICondition[]> {
+        return this.http.get<ICondition[]>(`/Dictionaries/icpc2?IsPublic=true&Search=${searchSrting}`);
     }
 }

@@ -1,0 +1,21 @@
+<div class="position-relative input-group">
+  <input
+    class="form-control border border-end-0 border-secondary border-1 rounded-start-2 pe-0"
+    type="text"
+    [ngModel]="inputShowValue"
+    #searchInput
+    (blur)="onTouched()"
+  />
+
+  <button class="bg-white border ps-0 border-secondary border-start-0 border-1 rounded-end-2 bi bi-caret-down-fill" #inputButton type="button"></button>
+</div>
+
+<ng-container *ngIf="(suggestions$ | async) as suggestions">
+  <ng-container *ngIf="suggestions.length > 0">
+    <ul class="position-absolute options bg-white border border-secondary border-1" [ngClass]="{ hideOptions: shouldHideOptions } ">
+      <li *ngFor="let suggestion of suggestions" (click)="selectSuggestion(suggestion)">
+        {{ suggestion.code }} {{ suggestion.name }}
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>
