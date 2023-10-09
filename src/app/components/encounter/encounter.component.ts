@@ -31,7 +31,7 @@ export class EncounterComponent {
       this.encounterForm.controls['conditions'].push(this.createConditionForm());
     }
   
-    public createConditionForm(): FormGroup<IConditionForm>  {
+    public createConditionForm(): FormGroup<IConditionForm> {
       return new FormGroup({
         condition: new FormControl<ICondition|null>(null),
         notes: new FormControl<string|null>(null),

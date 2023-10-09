@@ -8,5 +8,5 @@ export interface ICondition {
 
 export interface IConditionForm {
     condition: FormControl<ICondition | null>,
-    notes: FormControl<string | null>
+    notes: FormControl<string | null>,
 }
