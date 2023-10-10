@@ -30,17 +30,17 @@ export class EncounterComponent {
     public addConditionForm(): void {
       this.encounterForm.controls['conditions'].push(this.createConditionForm());
     }
+    
+    public formOutputObject(): void {
+      const { date, conditions } = this.encounterForm.value;
+      
+      this.outputGenerationService.formOutputObject(date, conditions);
+    }
   
-    public createConditionForm(): FormGroup<IConditionForm> {
+    private createConditionForm(): FormGroup<IConditionForm> {
       return new FormGroup({
         condition: new FormControl<ICondition|null>(null),
         notes: new FormControl<string|null>(null),
       });
-    }
-  
-    public formOutputObject(): void {
-      const { date, conditions } = this.encounterForm.value;
-
-      this.outputGenerationService.formOutputObject(date, conditions);
     }
 }

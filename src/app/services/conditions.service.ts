@@ -11,7 +11,7 @@ import { ICondition } from '../interfaces/interfaces';
 export class ConditionsService {
     constructor(private http: HttpClient) {}
 
-    getConditions(searchSrting: string = ''): Observable<ICondition[]> {
+    public getConditions(searchSrting: string = ''): Observable<ICondition[]> {
         return this.http.get<ICondition[]>(`/Dictionaries/icpc2?IsPublic=true&Search=${searchSrting}`);
     }
 }
